@@ -102,7 +102,30 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = true
+
+-- create autocommand group for toggling line numbers
+local numbertoggle_group = vim.api.nvim_create_augroup('numbertoggle', { clear = true })
+-- autocommand to set relative numbers in normal mode
+vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'WinEnter' }, {
+  desc = 'Set relative number in normal mode',
+  group = numbertoggle_group,
+  callback = function()
+    if vim.opt.number:get() and vim.api.nvim_get_mode().mode ~= 'i' then
+      vim.opt.relativenumber = true
+    end
+  end,
+})
+-- autocommand to unset relative numbers in insert mode
+vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'WinLeave' }, {
+  desc = 'Unset relative number in insert mode',
+  group = numbertoggle_group,
+  callback = function()
+    if vim.opt.number:get() then
+      vim.opt.relativenumber = false
+    end
+  end,
+})
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
