@@ -21,3 +21,6 @@ vim.keymap.set('v', 'p', '"_dP', opts)
 vim.keymap.set('n', '<C-/>', '<C-w>s', opts, { desc = 'split window horizontally' })
 vim.keymap.set('n', '<C-v>', '<C-w>v', opts, { desc = 'split window vertically' })
 vim.keymap.set('n', '<leader>xs', ':close<CR>', opts, { desc = 'close split window' })
+
+vim.api.nvim_set_keymap('i', '<C-c>', 'copilot#Accept("<CR>")', { expr = true, silent = true })
+vim.g.copilot_no_tab_map = true
